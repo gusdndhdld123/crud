@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--insert 다가져옴-->
+<!--en-한글브라우저에서 한글/영어 번역-->
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap 5 Example</title>
+    <meta charset="utf-8">
+</head>
+<!--반응형웹-->
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--부트스트랩에 css 색상, 모양-->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!--부트스트랩에 효과-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<body>
+<!--메뉴시작-->
+<!--메뉴색상-->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid"><!--메뉴 방향-->
+        <ul class="navbar-nav"><!--메뉴 구성-->
+            <li class="nav-item"><!--메뉴 항목-->
+                <!--href 매핑선언-->
+                <!--href 반드시 /부터 시작- active 항상 활성화-->
+                <a class="nav-link active" href="#">회사명</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">삽입</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">목록</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--메뉴끝-->
+<!--삽입폼-->
+<!--sm-스마트폰,md-태블릿,lg-pc,xl-4k-->
+<div class="row"><!--자리잡기, 행->12칸 구성-->
+    <div class="col-lg-3 col-md-2">여백</div>
+    <div class="col-lg-3 col-md-8"><!--작업-->
+        <h2>게시글 수정</h2>
+        <form action="@{/board/update}" th:method="post">
+            <!--삽입폼과 수정폼은 값의 존재(value,text), 기본키가 존재-->
+            <!--기본키 hidden 숨기처리, readonly출력만-->
+          <input type="hidden" name="id" th:value="${boardDTO.id}"><!--수정할대상 id 반드시 필요-->
+            <div class="mb-3 mt-3"><!--for 생략가능-->
+                <label class="form-label">제목:</label>
+                <input type="text" class="form-control" name="title"
+                th:value="${boardDTO.title}">
+            </div>
+            <div class="mb-3">
+                <labelclass="form-label">내용:</label>
+                <input type="text" class="form-control" name="content"
+                       th:value="${boardDTO.content}">
+            </div>
+            <div class="mb-3">
+                <labelclass="form-label">작성자:</label>
+                <input type="text" class="form-control" name="writer"
+                th:value="${boardDTO.writer}">
+            </div>
+            <div class="form-check mb-3">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" name="remember"> Remember me
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">수정</button>
+        </form>
+    </div>
+    <div class="col-lg-3 col-md-2">오른쪽</div>
+</div>
+<!--삽입끝-->
+<!--검색-->
+<!--검색끝-->
+<!--페이지-->
+<!--페이지끝-->
+<!--modal-->
+<!--javascript-->
+</body>
+</html>

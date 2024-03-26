@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--en-한글브라우저에서 한글/영어 번역-->
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap 5 Example</title>
+    <meta charset="utf-8">
+</head>
+<!--반응형웹-->
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--부트스트랩에 css 색상, 모양-->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!--부트스트랩에 효과-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<body>
+<!--메뉴시작-->
+<!--메뉴색상-->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid"><!--메뉴 방향-->
+        <ul class="navbar-nav"><!--메뉴 구성-->
+            <li class="nav-item"><!--메뉴 항목-->
+                <!--href 매핑선언-->
+                <!--href 반드시 /부터 시작- active 항상 활성화-->
+                <a class="nav-link active" href="#">회사명</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/board/insert">삽입</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/board/list">목록</a>
+            </li>
+
+
+        </ul>
+    </div>
+
+</nav>
+<!--메뉴끝-->
+<!--목록(임시값으로 모양)-->
+<div class="container mt-3"><!--M(여백)T(위)B(아래쪽)-->
+    <h2>게시판</h2><!--제목-->
+    <!--table(색상,모양)table-hover(효과)-->
+    <!--표->행->열-->
+    <table class="table table-hover">
+        <thead> <!--제목 -->
+        <tr><!--1행-->
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>수정일</th>
+            <th>작업</th>
+        </tr>
+        </thead>
+        <tbody><!--보고싶은 내용 , 1행만작업,th=td 동일하게-->
+        <!--사용할 DTO를 참고해서 변수적용-->
+        <!--반복처리(list변수명)-->
+        <!--for문 시작값~조건을 만족할 때까지 반복(정확한 시점)-->
+        <!--forEach문 오브젝트를 하나씩 불러서 더이상 없을 때까지(갯수몰라도됨)-->
+        <!--each(변수:배열(list))배열에서 하나씩 불러서 변수에 저장-->
+        <tr th:each="data:${list}">
+            <td th:text="${data.id}">1</td>    <!--여러 태그로 구성되어 있을때 가장 안쪽에 태그에 변수-->
+            <td th:text="${data.title}" th:href="@{'/board/'+${data.id}}">연습
+            </td></a><!--상세페이지-->
+            <td th:text="${data.writer}">홍길동</td>
+            <td th:text="${data.modDate}">2024-01-01</td>
+            <td><a th:href="@{'/board/update/'+${data.id}}">수정</a>
+                /<a th:href="@{'/board/update/'+${data.id}}">삭제</a></td>
+            <!--페이지연결 form, a, button-->
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!--목록끝-->
+<!--검색-->
+<!--페이지끝-->
+<!--modal-->
+<!--javascript-->
+</body>
+</html>

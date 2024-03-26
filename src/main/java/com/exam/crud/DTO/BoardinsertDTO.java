@@ -1,9 +1,9 @@
 package com.exam.crud.DTO;
 
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 //Entity 그냥 복사떠옴 클래스이름만 바꿈
 //데이터베이스 테이블
@@ -18,24 +18,25 @@ import java.time.LocalDateTime;
 @AllArgsConstructor @NoArgsConstructor
 //변수의 값을 getter와 setter를 이용하지 않고 변경
 @Builder
-//Entity(1)<->DTO(다)
-//하나의 Entity를 사용용도별로 DTO를 나누어서 작업
-//검증처리(View에서 입력내용이 정상적인 값인지 판별)
-public class BoardDTO{
+//데이터베이스 테이블을 위한 클랙스
+
+public class BoardinsertDTO {
+    //기본키,유일한 키-중복X
+    //기본키로 사용할 변수
+    @Id
+    //생성전략
+    //GenerationType.IDENTITY-중복되지 않도록 처리
+    //GenerationType.SEQUENCE -숫자를 증가하면서 처리
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "board_seq")
     private Long id;
     //게시판 제목, 내용, 작성자, 생성일, 수정일
     private String title;
     private String content;
     private String writer;
-    private LocalDateTime modDate;
-    //Entity에 없는 변수 선언 가능(주문관리->금액처리)
-
-//    private Integer sum;
-
     //변수를 처리할 필요한 메소드를 작성
     //Entity<->DTO간의 변환하는 메소드
     //생성작업
 
-}//비즈니스 모델
-//데이터 교환
+}
 
