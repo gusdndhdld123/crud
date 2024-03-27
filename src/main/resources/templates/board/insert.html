@@ -26,10 +26,10 @@
                 <a class="nav-link active" href="#">회사명</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/board/insert">삽입</a>
+                <a class="nav-link" th:href="@{/board/insert}">삽입</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">목록</a>
+                <a class="nav-link" th:href="@{/board/list}">목록</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link disabled" href="#">Disabled</a>
@@ -63,11 +63,6 @@
                 <label class="form-label">작성자:</label>
                 <input type="text" class="form-control" name="writer" th:field="*{writer}">
                 <p th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}"></p>
-            </div>
-            <div class="form-check mb-3">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="remember"> Remember me
-                </label>
             </div>
             <button type="submit" class="btn btn-primary">등록</button>
         </form>

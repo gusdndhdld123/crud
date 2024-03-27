@@ -2,21 +2,23 @@ package com.exam.crud.Controller;
 
 import com.exam.crud.DTO.BoardDTO;
 import com.exam.crud.Service.BoardService;
+import com.exam.crud.Service.PageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import java.util.List;
+import java.util.Map;
 
 //주석 사용법
 //TODO : 1. 검증
@@ -72,7 +74,7 @@ public class BoardController {
     //Path(맵핑에)Variable(변수)로 전달받은 값을 Long id에 저장
     @GetMapping("/board/update/{bno}")
     //Model은 데이터베이스에서 받은 내용을 html에 전달할게 있으면
-    public String updateForm(Long bno,Model model){//(받고, 보낼)
+    public String updateForm(@PathVariable Long bno,Model model){//(받고, 보낼)
         //개별조회 후 수정폼에 출력(조회한 내용을 DTO에 저장)
         BoardDTO boardDTO=boardService.read(bno);
         //HTML에 값을 전달
@@ -85,6 +87,7 @@ public class BoardController {
     @PostMapping("/board/update")
     public String updateProc(@Validated BoardDTO boardDTO,
                              BindingResult bindingResult, Model model) {
+
         if (bindingResult.hasErrors()){
             log.error("서비스 인서트 포스트 오류");
             return "/board/update";
@@ -101,13 +104,37 @@ public class BoardController {
         //서비스처리(삭제)
         return "redirect:/board/list";
     }
+
+
+
+
+
+    //View에서 페이지 정보가 전달되지 않으면 기본 1페이지로 사용
+    //@requestParam은 ?뒤에 변수로 보낸 값을 처리(value="보낸변수", defaultValue = "변수가 없을 때 대체"
     @GetMapping("/board/list")
-    public String listForm(Model model) {
-        List<BoardDTO>boardDTOList= boardService.list();
+    public String listForm(@PageableDefault(page=1) Pageable pageable,
+                           @RequestParam(value = "type", defaultValue = "") String type,
+                           @RequestParam(value = "search", defaultValue = "") String search,Model model) {
+
+        Page<BoardDTO> boardDTOList= boardService.list(pageable, type, search);
+
+        //추가로 페이지정보도 view에 전달(하단에 출력할 정보를 가공)
+        Map<String, Integer> pageinfo = PageService.Pagination(boardDTOList);
+        //여러개의 변수를 한번에 전달할 때
+        model.addAllAttributes(pageinfo);
+
+        System.out.println(pageinfo);
+
         //서비스처리(전체조회)
         model.addAttribute("list",boardDTOList);
         return "/board/list";
     }
+
+
+
+
+
+
     @GetMapping("/board/{bno}")//대괄호나오면 @path
     public String readForm(@PathVariable Long bno,Model model){
         BoardDTO boardDTO=boardService.read(bno);

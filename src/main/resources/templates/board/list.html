@@ -61,19 +61,77 @@
         <!--each(변수:배열(list))배열에서 하나씩 불러서 변수에 저장-->
         <tr th:each="data:${list}">
             <td th:text="${data.bno}">1</td>    <!--여러 태그로 구성되어 있을때 가장 안쪽에 태그에 변수-->
-            <td th:text="${data.title}" th:href="@{'/board/'+${data.bno}}">연습
-            </td></a><!--상세페이지-->
+
+            <td>
+               <a th:text="${data.title}" th:href="@{'/board/'+${data.bno}}">
+                연습
+               </a>
+            </td>
+            <!--상세페이지-->
             <td th:text="${data.writer}">홍길동</td>
-            <td th:text="${data.modDate}">2024-01-01</td>
+            <td th:text="${@dateUtil.formatModDate(data.modDate)}">
+            2024-01-01
+            </td>
             <td><a th:href="@{'/board/update/'+${data.bno}}">수정</a>
-                /<a th:href="@{'/board/update/'+${data.bno}}">삭제</a></td>
+                /<a th:href="@{'/board/delete/'+${data.bno}}">삭제</a></td>
             <!--페이지연결 form, a, button-->
         </tr>
         </tbody>
     </table>
 </div>
+<div>
+    <ul class="pagination justify-content-center" style="margin:20px 0">
+        <li class="page-item" th:unless="${startPage==1}" >
+            <a class="page-link" th:href="@{/board/list(page=1)}"> << </a>
+        </li>
+        <!--앞페이지 이동은 1페이지면 필요없음-->
+        <li class="page-item" th:unless="${currentPage==1}">
+            <a class="page-link" th:href="@{/board/list(page=${prevPage})}"> < </a>
+        </li>
+        <!--페이지 번호를 출력하는 부분, 반복문을 이용해서 지정된 개수만큼 출력-->
+        <!--일반 for문 number.sequence(순차반복)(시작, 끝값, 증가값)-->
+        <span th:each="page:${#numbers.sequence(startPage, endPage, 1)}">
+        <li class="page-item" th:unless="${page==currentPage}">
+            <a class="page-link" th:href="@{/board/list(page=${page})}"> [[${page}]] </a>
+        </li>
+        <li class="page-item active" th:if="${page==currentPage}">
+            <a class="page-link" th:href="@{/board/list(page=${page})}"> [[${page}]] </a>
+        </li>
+        </span>
+        <li class="page-item" th:unless="${currentPage==lastPage}">
+            <a class="page-link" th:href="@{/board/list(page=${nextPage})}"> > </a>
+        </li>
+        <li class="page-item" th:unless="${endPage==lastPage}">
+            <a class="page-link" th:href="@{/board/list(page=${lastPage})}"> >> </a>
+        </li>
+    </ul>
+</div>
+
 <!--목록끝-->
 <!--검색-->
+
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-lg-6">
+        <form th:action="@{board/list}" method="get">
+            <div class="input-group mt-3 mb-3">
+                <select class="form-control" name="type">
+                    <option value=""></option>
+                    <option value="s">제목</option>
+                    <option value="c">내용</option>
+                    <option value="w">작성자</option>
+                    <option value="scw">제목+내용+작성자</option>
+                </select>
+                <input type="text" class="form-control" name="search" placeholder="검색어를 입력하세요">
+                <button type="submit" class="btn btn-primary">검색</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-3"></div>
+</div>
+
+
+<!--검색 끝-->
 <!--페이지끝-->
 <!--modal-->
 <!--javascript-->
