@@ -36,7 +36,7 @@ public class BoardEntity extends BaseEntity{
     //GenerationType.SEQUENCE -숫자를 증가하면서 처리
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
     generator = "board_seq")
-    private Long id;
+    private Long bno;
     //게시판 제목, 내용, 작성자, 생성일, 수정일
     private String title;
     private String content;

@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,10 +26,10 @@ public class BoardService {
     private final ModelMapper modelMapper;
 
     //view에서 DTO전달->Entity변환 후 데이터베이스에 저장
-    public void update(BoardDTO boardDTO){
+    public void update(BoardDTO boardDTO ,Model model){
         //수정할 데이터가 존재하는가?
         //수정할 id로 조회
-        Optional<BoardEntity>temp=boardRepository.findById(boardDTO.getId());//조회
+        Optional<BoardEntity>temp=boardRepository.findById(boardDTO.getBno());//조회
         if(temp.isPresent()) {//존재하면
             //DTO의 내용을 Entity의 내용에 맞게 매칭처리
             BoardEntity boardEntity = modelMapper.map(boardDTO, BoardEntity.class);
@@ -40,14 +41,14 @@ public class BoardService {
         }
     }
     //삭제
-    public void delete(Long id){
-    boardRepository.deleteById(id); //해당 번호 자료 삭제
+    public void delete(Long bno){
+    boardRepository.deleteById(bno); //해당 번호 자료 삭제
     }
     //개별조회
     //요청번호->조회해서->DTO변환 후 ->View전달
-    public BoardDTO read(Long id){
+    public BoardDTO read(Long bno){
         //요청한 번호를 조회
-        Optional<BoardEntity>temp=boardRepository.findById(id);
+        Optional<BoardEntity>temp=boardRepository.findById(bno);
         //변환
 //        BoardDTO boardDTO=modelMapper.map(temp,BoardDTO.class);
 //        return  boardDTO;
@@ -59,8 +60,8 @@ public class BoardService {
         List<BoardEntity>boardEntities=boardRepository.findAll();
         //변환
         //Arrays.asList :List의 내용을 개별로 읽어서 변환 후 배열로 저장
-        List<BoardDTO>boardDTOS= Arrays.asList(modelMapper.map(boardEntities, BoardDTO[].class));
-    return boardDTOS;
+        List<BoardDTO>boardDTOList= Arrays.asList(modelMapper.map(boardEntities, BoardDTO[].class));
+    return boardDTOList;
     }
 
     public void insert(BoardDTO boardDTO) {

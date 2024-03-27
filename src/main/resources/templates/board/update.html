@@ -43,37 +43,36 @@
 <!--삽입폼-->
 <!--sm-스마트폰,md-태블릿,lg-pc,xl-4k-->
 <div class="row"><!--자리잡기, 행->12칸 구성-->
-    <div class="col-lg-3 col-md-2">여백</div>
+    <div class="col-lg-3 col-md-2"></div>
     <div class="col-lg-3 col-md-8"><!--작업-->
         <h2>게시글 수정</h2>
-        <form action="@{/board/update}" th:method="post">
+        <form action="@{/board/update}" th:method="post" th:object="${boardDTO}">
             <!--삽입폼과 수정폼은 값의 존재(value,text), 기본키가 존재-->
             <!--기본키 hidden 숨기처리, readonly출력만-->
-          <input type="hidden" name="id" th:value="${boardDTO.id}"><!--수정할대상 id 반드시 필요-->
+          <input type="hidden" name="bno" th:field="*{bno}" ><!--수정할대상 id 반드시 필요-->
             <div class="mb-3 mt-3"><!--for 생략가능-->
                 <label class="form-label">제목:</label>
                 <input type="text" class="form-control" name="title"
-                th:value="${boardDTO.title}">
+                th:value="*{title}">
+                <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
             </div>
             <div class="mb-3">
-                <labelclass="form-label">내용:</label>
+                <label class="form-label">내용:</label>
                 <input type="text" class="form-control" name="content"
-                       th:value="${boardDTO.content}">
+                       th:value="*{content}">
+                <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
             </div>
             <div class="mb-3">
-                <labelclass="form-label">작성자:</label>
+                <label class="form-label">작성자:</label>
                 <input type="text" class="form-control" name="writer"
-                th:value="${boardDTO.writer}">
+                th:value="*{writer}">
+                <p th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}"></p>
             </div>
-            <div class="form-check mb-3">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="remember"> Remember me
-                </label>
-            </div>
+
             <button type="submit" class="btn btn-primary">수정</button>
         </form>
     </div>
-    <div class="col-lg-3 col-md-2">오른쪽</div>
+    <div class="col-lg-3 col-md-2"></div>
 </div>
 <!--삽입끝-->
 <!--검색-->

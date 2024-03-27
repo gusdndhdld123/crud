@@ -42,22 +42,27 @@
 <!--삽입폼-->
 <!--sm-스마트폰,md-태블릿,lg-pc,xl-4k-->
 <div class="row"><!--자리잡기, 행->12칸 구성-->
-    <div class="col-lg-3 col-md-2">여백</div>
+    <div class="col-lg-3 col-md-2"></div>
     <div class="col-lg-3 col-md-8"><!--작업-->
         <h2>게시글 등록</h2>
-        <form action="@{/board/insert}" th:method="post">
-
+        <form th:action="@{/board/insert}" th:method="post" th:object="${boardDTO}">
+        <!--Form에는 변수를 object를 사용해서 쉽게 이용 가능 (받아온 변수명으로)-->
+            <!--field는 세부변수명만 *사용-->
             <div class="mb-3 mt-3"><!--for 생략가능-->
                 <label class="form-label">제목:</label>
-                <input type="text" class="form-control" name="title">
+                <input type="text" class="form-control" name="title" th:field="*{title}">
+                <!--오류메세지 작업-->
+                <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
             </div>
             <div class="mb-3">
-                <labelclass="form-label">내용:</label>
-                <input type="text" class="form-control" name="content">
+                <label class="form-label">내용:</label>
+                <input type="text" class="form-control" name="content" th:field="*{content}">
+                <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
             </div>
             <div class="mb-3">
-                <labelclass="form-label">작성자:</label>
-                <input type="text" class="form-control" name="writer">
+                <label class="form-label">작성자:</label>
+                <input type="text" class="form-control" name="writer" th:field="*{writer}">
+                <p th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}"></p>
             </div>
             <div class="form-check mb-3">
                 <label class="form-check-label">
@@ -67,7 +72,7 @@
             <button type="submit" class="btn btn-primary">등록</button>
         </form>
     </div>
-    <div class="col-lg-3 col-md-2">오른쪽</div>
+    <div class="col-lg-3 col-md-2"></div>
 </div>
 <!--삽입끝-->
 <!--검색-->

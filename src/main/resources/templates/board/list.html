@@ -60,13 +60,13 @@
         <!--forEach문 오브젝트를 하나씩 불러서 더이상 없을 때까지(갯수몰라도됨)-->
         <!--each(변수:배열(list))배열에서 하나씩 불러서 변수에 저장-->
         <tr th:each="data:${list}">
-            <td th:text="${data.id}">1</td>    <!--여러 태그로 구성되어 있을때 가장 안쪽에 태그에 변수-->
-            <td th:text="${data.title}" th:href="@{'/board/'+${data.id}}">연습
+            <td th:text="${data.bno}">1</td>    <!--여러 태그로 구성되어 있을때 가장 안쪽에 태그에 변수-->
+            <td th:text="${data.title}" th:href="@{'/board/'+${data.bno}}">연습
             </td></a><!--상세페이지-->
             <td th:text="${data.writer}">홍길동</td>
             <td th:text="${data.modDate}">2024-01-01</td>
-            <td><a th:href="@{'/board/update/'+${data.id}}">수정</a>
-                /<a th:href="@{'/board/update/'+${data.id}}">삭제</a></td>
+            <td><a th:href="@{'/board/update/'+${data.bno}}">수정</a>
+                /<a th:href="@{'/board/update/'+${data.bno}}">삭제</a></td>
             <!--페이지연결 form, a, button-->
         </tr>
         </tbody>
